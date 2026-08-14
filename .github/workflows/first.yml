@@ -1,4 +1,7 @@
 name: My First Action!
+env: 
+    NAME: Action-learning
+
 on: 
     push:
         branches: ["main", "test"]
@@ -9,7 +12,7 @@ jobs:
         runs-on: ubuntu-latest
         steps: 
             - name: Say Hello World
-              run: echo "Hello World!"
+              run: echo "Hello World! This is ${{env.NAME}}!"
             - name: Checkout
               uses: actions/checkout@v7
             - name: Tree
