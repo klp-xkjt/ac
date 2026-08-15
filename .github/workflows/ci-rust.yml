@@ -1,8 +1,10 @@
 name: Rust Project CI
-run-name: ${{github.repository_id}} CI
+run-name: ${{github.actor}} CI
 on: 
     push:
-        branches: ["main"]
+        branches: ["main", "test"]
+    pull_request:
+        branches: ["main", "test"]
 
 jobs: 
     ci:
@@ -10,12 +12,24 @@ jobs:
         steps:
           - name: Checkout
             uses: actions/checkout@v7
+
           - name: Install Rust
             uses: dtolnay/rust-toolchain@stable
+
+          - name: Cache
+            uses: actions/cache@v6.1.0
+            with: 
+                path: |
+                    ~/.cargo/registry
+                    ~/.cargo/git
+                    target/
+                key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
           - name: Cargo Clippy
             run: cargo clippy
+
           - name: Run Test
             run: cargo test --release
+
           - name: Run Code
             run: cargo run
-    
