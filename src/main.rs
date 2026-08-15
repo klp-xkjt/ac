@@ -1,5 +1,5 @@
 use action_learning::add;
 
 fn main() {
-    println!("{}", add(1, 1));
+    println!("1 + 1 = {}", add(1, 1));
 }
